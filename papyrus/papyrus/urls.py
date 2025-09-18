@@ -4,5 +4,5 @@ from rest_framework import routers
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("api/", include('papyrus_api.urls'))
+    path("", include('papyrus_api.urls'))
 ]
