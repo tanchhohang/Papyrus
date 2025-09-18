@@ -9,9 +9,10 @@ class UserSerializer(serializers.ModelSerializer):
 
 class ReviewSerializer(serializers.ModelSerializer):
     user = serializers.StringRelatedField(read_only=True)
+    # user = UserSerializer(many=True, read_only=True)
     class Meta:
         model = Review
-        fields = ['id','book','user','rating','date']
+        fields = ['id','book','user','rating','comment','date']
 
         def validate_rating(self,value):
             if value > 10 or value < 0:
@@ -19,8 +20,12 @@ class ReviewSerializer(serializers.ModelSerializer):
             return value
 
 class BookSerializer(serializers.ModelSerializer):
+    avgrating = serializers.FloatField(read_only=True)
     class Meta:
         model = Book
-        fields = ['id','title','author','description']
+        fields = ['id','title','author','description','avgrating']
 
+class BookInfoSerializer(serializers.Serializer):
+    books = BookSerializer(many=True)
+    count = serializers.IntegerField()
 
