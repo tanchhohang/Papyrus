@@ -1,0 +1,37 @@
+GET http://127.0.0.1:8000/books/ HTTP/1.1
+
+###
+
+POST http://127.0.0.1:8000/books/ HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU4NDYzMTA4LCJpYXQiOjE3NTg0NjI4MDgsImp0aSI6IjJmNzllZWI1YmZlZTRhNmY5OWQ1OWYwOGNkYTE0Zjc3IiwidXNlcl9pZCI6IjUifQ.JiLF-aXyzzCzDYxnpfueHzcif_f2xbjv0zos22gJjkc
+
+{
+    "title": "Dante's Inferno",
+    "author": "Dante",
+    "description": "Journey to layers of hell"
+}
+
+###
+
+POST http://127.0.0.1:8000/api/token/ HTTP/1.1
+Content-Type: application/json
+
+{
+    "username": "yuko",
+    "password": "12345678"
+}
+
+###\
+
+GET http://127.0.0.1:8000/user-reviews/ HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU4NDYzMTA4LCJpYXQiOjE3NTg0NjI4MDgsImp0aSI6IjJmNzllZWI1YmZlZTRhNmY5OWQ1OWYwOGNkYTE0Zjc3IiwidXNlcl9pZCI6IjUifQ.JiLF-aXyzzCzDYxnpfueHzcif_f2xbjv0zos22gJjkc
+
+###
+
+POST http://127.0.0.1:8000/api/token/refresh/ HTTP/1.1
+Content-Type: application/json
+
+{
+    "refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc1ODU0OTg2OSwiaWF0IjoxNzU4NDYzNDY5LCJqdGkiOiI4Y2EyZmIyYmM5ZjI0MGM2YjlmZTY1ODgzOTM2ZmM3ZSIsInVzZXJfaWQiOiI1In0.03QCKmLEIXBxPcI7t0aDH-FHSHASCRt_QQ7ZFM-tDUc"
+}
