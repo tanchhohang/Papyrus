@@ -1,4 +1,4 @@
-from rest_framework import viewsets, generics
+from rest_framework import viewsets, filters
 from rest_framework.permissions import (
     IsAuthenticated, 
     IsAdminUser,
@@ -6,7 +6,9 @@ from rest_framework.permissions import (
 )
 from django.contrib.auth.models import User
 from .models import Book, Review
-from .serializer import UserSerializer, BookSerializer, ReviewSerializer, BookInfoSerializer
+from .serializer import UserSerializer, BookSerializer, ReviewSerializer
+from .filters import BookFilter
+from django_filters.rest_framework import DjangoFilterBackend #HasAuthorFilterBackend
 
 #USERS
 class UserViewSet(viewsets.ModelViewSet):
@@ -22,6 +24,15 @@ class UserViewSet(viewsets.ModelViewSet):
 class BookViewSet(viewsets.ModelViewSet):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
+    filterset_class = BookFilter
+    filter_backends = [
+        DjangoFilterBackend, 
+        filters.SearchFilter,
+        filters.OrderingFilter,
+        #HasAuthorFilterBackend,
+        ]
+    search_fields= ['title', 'author']
+    ordering_fields = ['title', 'author']
 
     def get_permissions(self):
         self.permission_classes = [AllowAny]
