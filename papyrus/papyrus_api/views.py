@@ -9,6 +9,8 @@ from .models import Book, Review
 from .serializer import UserSerializer, BookSerializer, ReviewSerializer
 from .filters import BookFilter
 from django_filters.rest_framework import DjangoFilterBackend #HasAuthorFilterBackend
+from rest_framework.pagination import PageNumberPagination, LimitOffsetPagination
+
 
 #USERS
 class UserViewSet(viewsets.ModelViewSet):
@@ -22,7 +24,7 @@ class UserViewSet(viewsets.ModelViewSet):
 #     serializer_class = BookSerializer
 
 class BookViewSet(viewsets.ModelViewSet):
-    queryset = Book.objects.all()
+    queryset = Book.objects.order_by('pk')
     serializer_class = BookSerializer
     filterset_class = BookFilter
     filter_backends = [
@@ -33,6 +35,14 @@ class BookViewSet(viewsets.ModelViewSet):
         ]
     search_fields= ['title', 'author']
     ordering_fields = ['title', 'author']
+    pagination_class = LimitOffsetPagination
+
+    # pagination_class.pagesize = 2
+    # pagination_class.page_size_query_param = 'size'
+    # pagination_class.max_page_size = 10
+
+    #optional overwrite
+    #pagination_class.page_query_param = 'pagenum'
 
     def get_permissions(self):
         self.permission_classes = [AllowAny]
@@ -45,6 +55,10 @@ class BookViewSet(viewsets.ModelViewSet):
 class ReviewViewSet(viewsets.ModelViewSet):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
+    permission_classes = [IsAuthenticated]
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
     
 
 class UserReviewViewSet(viewsets.ModelViewSet):
