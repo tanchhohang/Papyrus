@@ -10,6 +10,7 @@ from django.contrib.auth.models import User
 from .models import Book, Review
 from .serializer import UserSerializer, BookSerializer, ReviewSerializer
 from .filters import BookFilter, ReviewFilter
+from .pagination import ReviewCPagination
 from django_filters.rest_framework import DjangoFilterBackend #HasAuthorFilterBackend
 from rest_framework.pagination import PageNumberPagination, LimitOffsetPagination
 
@@ -37,7 +38,6 @@ class BookViewSet(viewsets.ModelViewSet):
         ]
     search_fields= ['title', 'author']
     ordering_fields = ['title', 'author']
-    pagination_class = LimitOffsetPagination
 
     # pagination_class.pagesize = 2
     # pagination_class.page_size_query_param = 'size'
@@ -60,6 +60,7 @@ class ReviewViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     filterset_class = ReviewFilter
     filter_backends = [DjangoFilterBackend]
+    pagination_class = ReviewCPagination
 
     #optional
     #paginantion_class = None
