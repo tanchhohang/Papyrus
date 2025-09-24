@@ -22,5 +22,5 @@ class ReviewFilter(django_filters.FilterSet):
         model = Review
         fields = {
             'rating':['exact','lt','gt'],
-            'date': ['lt','gt','exact']
+            'created': ['lt','gt','exact']
         }        

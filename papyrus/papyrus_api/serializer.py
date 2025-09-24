@@ -24,7 +24,7 @@ class ReviewSerializer(serializers.ModelSerializer):
             'user',
             'rating',
             'comment',
-            'date'
+            'created'
             ]
 
     def validate_rating(self,value):
