@@ -13,6 +13,7 @@ from .filters import BookFilter, ReviewFilter
 from .pagination import ReviewCPagination
 from django_filters.rest_framework import DjangoFilterBackend #HasAuthorFilterBackend
 from rest_framework.pagination import PageNumberPagination, LimitOffsetPagination
+from rest_framework.throttling import ScopedRateThrottle
 
 
 #USERS
@@ -27,6 +28,8 @@ class UserViewSet(viewsets.ModelViewSet):
 #     serializer_class = BookSerializer
 
 class BookViewSet(viewsets.ModelViewSet):
+    throttle_scope = 'books'
+    throttle_classes = [ScopedRateThrottle]
     queryset = Book.objects.order_by('pk')
     serializer_class = BookSerializer
     filterset_class = BookFilter
@@ -53,13 +56,14 @@ class BookViewSet(viewsets.ModelViewSet):
 
     def get_permissions(self):
         self.permission_classes = [AllowAny]
-        if self.request.method == 'POST':
+        if self.request.method in ['POST', 'PUT', 'PATCH', 'DELETE']:
             self.permission_classes = [IsAdminUser]
         return super().get_permissions()
 
 
 #REVIEW
 class ReviewViewSet(viewsets.ModelViewSet):
+    throttle_scope = 'reviews'
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
     permission_classes = [IsAuthenticated]
