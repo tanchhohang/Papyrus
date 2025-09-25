@@ -34,6 +34,8 @@ class ReviewSerializer(serializers.ModelSerializer):
 
 class BookSerializer(serializers.ModelSerializer):
     avgrating = serializers.FloatField(read_only=True)
+    reviews = ReviewSerializer(many=True, read_only=True)
+
     class Meta:
         model = Book
         fields = [
@@ -41,10 +43,37 @@ class BookSerializer(serializers.ModelSerializer):
             'title',
             'author',
             'description',
+            'reviews',
             'avgrating'
             ]
 
-class BookInfoSerializer(serializers.Serializer):
-    books = BookSerializer(many=True)
-    count = serializers.IntegerField()
+
+# class BookCreateSerializer(serializers.ModelSerializer):
+#     class BookReviewsCreateSerializer(serializers.ModelSerializer):
+#         class Meta:
+#             model = BookReview
+#             fields = ['rating','comment']
+
+#     reviews = BookReviewsCreateSerializer(many=True)
+
+#     def create(self,validated_data):
+#         bookreview_data = validated_data.pop('reviews')
+#         book = Book.objects.all().create(**validated_data)
+
+#         for review in bookreview_data:
+#             BookReview.objects.create(book = book, **item)
+
+#         return book
+
+#     class Meta:
+#         model = Book
+#         fields=[
+#             'title',
+#             'author',
+#             'description',
+#             'reviews',
+#         ]
+#         extra_kwargs = (
+#             'user': {'read_only': True}
+#         )
 
