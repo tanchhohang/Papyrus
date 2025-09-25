@@ -139,6 +139,19 @@ REST_FRAMEWORK = {
     # 'DEFAULT_RENDERER_CLASSES':(
     #     'rest_framework.renderers.JSONRenderer',
     # ),
+    'DEFAULT_THROTTLE_CLASSES':[
+        'rest_framework.throttling.AnonRateThrottle',
+        # 'rest_framework.throttling.ScopedRateThrottle',
+        # 'papyrus_api.throttles.BurstRateThrottle',
+        # 'papyrus_api.throttles.SustainedRateThrottle',
+    ],
+    'DEFAULT_THROTTLE_RATES':{
+        'anon': '2/min',
+        'books': '10/min',
+        'reviews': '20/min'
+        # 'burst': '10/min',
+        # 'sustained': '15/hr',
+    }
 }
 
 SPECTACULAR_SETTINGS = {
