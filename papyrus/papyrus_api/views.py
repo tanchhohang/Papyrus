@@ -8,7 +8,7 @@ from rest_framework.permissions import (
 )
 from django.contrib.auth.models import User
 from .models import Book, Review
-from .serializer import UserSerializer, BookSerializer, ReviewSerializer
+from .serializer import UserSerializer, BookSerializer, ReviewSerializer #BookCreateSerializer
 from .filters import BookFilter, ReviewFilter
 from .pagination import ReviewCPagination
 from django_filters.rest_framework import DjangoFilterBackend #HasAuthorFilterBackend
@@ -46,6 +46,11 @@ class BookViewSet(viewsets.ModelViewSet):
     #optional overwrite
     #pagination_class.page_query_param = 'pagenum'
 
+    # def get_serializer_class(self):
+    #     if self.action == 'create':
+    #         return BookCreateSerializer
+    #     return super().get_serializer_class()
+
     def get_permissions(self):
         self.permission_classes = [AllowAny]
         if self.request.method == 'POST':
@@ -64,6 +69,9 @@ class ReviewViewSet(viewsets.ModelViewSet):
 
     #optional
     #paginantion_class = None
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
 
     def get_queryset(self):
         qs= super().get_queryset()
