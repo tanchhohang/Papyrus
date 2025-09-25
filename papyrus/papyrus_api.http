@@ -40,3 +40,19 @@ Content-Type: application/json
 
 GET http://127.0.0.1:8000/reviews/1 HTTP/1.1
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU4NzIwNTA2LCJpYXQiOjE3NTg3MjAyMDYsImp0aSI6IjdjMmNmZDc1YWY1YzQwMmU4ZmE4NTljNmQ5MjgyOGQwIiwidXNlcl9pZCI6IjUifQ.UoBVsYclI4CSrOC50oyQyR_ZUk1Nsojtod4g8Ytigp8
+
+###
+
+POST http://127.0.0.1:8000/books/ HTTP/1.1
+Content-Type: application/json
+
+{
+    "status":"Pending",
+    "title":"Kill a mockingbird",
+    "desciption":"Good Book",
+    "reviews": [
+        {
+
+        }
+    ]
+}
