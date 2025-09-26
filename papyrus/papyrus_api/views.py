@@ -7,6 +7,8 @@ from rest_framework.permissions import (
     AllowAny,
 )
 from django.contrib.auth.models import User
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 from .models import Book, Review
 from .serializer import UserSerializer, BookSerializer, ReviewSerializer #BookCreateSerializer
 from .filters import BookFilter, ReviewFilter
@@ -41,6 +43,16 @@ class BookViewSet(viewsets.ModelViewSet):
         ]
     search_fields= ['title', 'author']
     ordering_fields = ['title', 'author']
+
+    @method_decorator(cache_page(60 * 15, key_prefix="book_list"), name="list")
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
+    
+    def get_queryset(self):
+        import time
+        time.sleep(2)
+        return super().get_queryset()
+    
 
     # pagination_class.pagesize = 2
     # pagination_class.page_size_query_param = 'size'
