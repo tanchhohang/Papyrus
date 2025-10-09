@@ -1,5 +1,6 @@
 import uuid
 from django.db import models
+from django.db.models import Avg
 from django.contrib.auth.models import User
 
 #TODO use of UUID inetead of default id
@@ -14,9 +15,8 @@ class Book(models.Model):
         return self.title
     
     def avgrating(self):
-       reviews = self.reviews.all()
-       if reviews.exists():
-           return sum(review.rating for review in reviews) / reviews.count()
+        avg = self.reviews.aggregate(Avg('rating'))['rating__avg']
+        return round(avg,1)
 
 class Review(models.Model):
     book = models.ForeignKey(Book, related_name='reviews',on_delete=models.CASCADE)
