@@ -11,19 +11,24 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import environ
+import os
+from decouple import config
+
+env = environ.Env()
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-f)^@_zg^2)mr3!t3)#l3l68t)5z%qbihaxngu+53lh9h_c-u(+'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+SECRET_KEY = config('SECRET_KEY')
+DEBUG = config('DEBUG', default=False, cast=bool)
 
 ALLOWED_HOSTS = []
 
@@ -146,9 +151,9 @@ REST_FRAMEWORK = {
         # 'papyrus_api.throttles.SustainedRateThrottle',
     ],
     'DEFAULT_THROTTLE_RATES':{
-        'anon': '2/min',
-        'books': '10/min',
-        'reviews': '20/min'
+        'anon': '10/min',
+        'books': '30/min',
+        'reviews': '30/min'
         # 'burst': '10/min',
         # 'sustained': '15/hr',
     }
