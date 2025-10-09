@@ -16,7 +16,9 @@ class Book(models.Model):
     
     def avgrating(self):
         avg = self.reviews.aggregate(Avg('rating'))['rating__avg']
-        return round(avg,1)
+        if avg is None:
+            return 0.0 
+        return round(avg, 1)
 
 class Review(models.Model):
     book = models.ForeignKey(Book, related_name='reviews',on_delete=models.CASCADE)
