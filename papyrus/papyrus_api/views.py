@@ -49,8 +49,6 @@ class BookViewSet(viewsets.ModelViewSet):
         return super().list(request, *args, **kwargs)
     
     def get_queryset(self):
-        import time
-        time.sleep(2)
         return super().get_queryset()
     
 
