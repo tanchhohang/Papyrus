@@ -8,4 +8,5 @@ from django.core.cache import cache
 def invalidate_product_cache(sender,instance, **kwargs):
     print("Clearing book cache")
 
-    cache.delete_pattern('*book_list*')
+    if hasattr(cache, 'delete_pattern'):
+        cache.delete_pattern('*book_list*')
