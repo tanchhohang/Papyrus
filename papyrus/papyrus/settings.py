@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
+import sys
 from pathlib import Path
 import environ
 import os
@@ -176,3 +177,10 @@ CACHES = {
         }
     }
 }
+
+if 'test' in sys.argv or 'test_coverage' in sys.argv:
+    CACHES = {
+        'default': {
+            'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
+        }
+    }
